@@ -118,3 +118,56 @@ container runs.
 | `FileNotFoundError: data/raw/...` | Bind mount missing or wrong path | Use absolute paths or verify `./data` exists on host |
 | Tests fail with `tensorflow` import errors | Missing system libraries in slim image | Rebuild image; slim-bookworm includes required `glibc` |
 | `docker compose` unknown command | Compose v1 installed instead of plugin | Use `docker-compose` (hyphen) or upgrade to Docker Compose v2 |
+
+---
+
+## 🧪 Experimental Autoencoder
+
+The experimental autoencoder module trains an anomaly-detection pipeline on
+top of the supervised preprocessing artifacts. It is fully isolated under
+`models/experimental/` and `results/experimental/` — the existing supervised
+pipelines are unchanged.
+
+**Prerequisites**: run the supervised pipelines first (`src.preprocessing.pipeline`
+and `src.training.pipeline`) to generate the required base artifacts.
+
+### Run the Experiment
+
+```bash
+# Local
+python -m src.autoencoder.pipeline
+
+# Docker
+docker compose run --rm pipeline python -m src.autoencoder.pipeline
+```
+
+### CLI Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--latent-dim` | `24` | Bottleneck dimension |
+| `--threshold-k` | `2.0` | Anomaly threshold: `mean + k * std` |
+| `--epochs` | `100` | Maximum autoencoder training epochs |
+| `--patience` | `10` | EarlyStopping patience |
+| `--output-dir-models` | `models/experimental` | Directory for experimental model artifacts |
+| `--output-dir-results` | `results/experimental` | Directory for experimental result artifacts |
+
+### Generated Artifacts
+
+**`models/experimental/`**:
+- `autoencoder.keras` — Trained autoencoder
+- `encoder.keras` — Encoder sub-model (extracts latent vectors)
+- `classifier_encoder.keras` — MLP classifier trained on latent vectors
+
+**`results/experimental/`**:
+- `autoencoder_report.json` — Architecture, training history, anomaly detection summary
+- `reconstruction_errors.csv` — Per-row reconstruction errors and anomaly flags
+- `latent_vectors.csv` — Encoded latent vectors with metadata
+- `comparison_metrics.csv` — Classification comparison: baseline vs. encoder classifier
+- `autoencoder_training_loss.png` — Training/validation loss plot
+- `autoencoder_error_distribution.png` — Reconstruction error histogram
+- `encoder_classifier_confusion.png` — Confusion matrix for the encoder classifier
+
+Existing commands (`python -m src.data.pipeline`, `python -m src.preprocessing.pipeline`,
+`python -m src.training.pipeline`, `pytest tests/ -v`) are unchanged and continue to
+work as before.
