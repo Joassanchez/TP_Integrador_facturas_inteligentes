@@ -165,7 +165,7 @@ def run_autoencoder_experiment(args) -> dict:
     n_classes = len(label_encoder.classes_)
 
     # ---- 5. Load & prepare data ----
-    df, _metadata = load_dataset(args.input_path)
+    df, _metadata = load_dataset(args.input)
     df = derive_categoria(df)
 
     # Preserve id_factura before extract_target drops it
