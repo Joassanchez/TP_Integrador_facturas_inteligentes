@@ -1,0 +1,140 @@
+{
+  "status": "PASS",
+  "source": {
+    "input_path": "C:\\Users\\Joa\\Documents\\Facultad\\TP_Integrador_facturas_inteligentes\\data\\raw\\dataset_facturas_sistemas_inteligentes.xlsx",
+    "format": "xlsx",
+    "sheet_name": "dataset_facturas"
+  },
+  "dataset": {
+    "row_count": 500,
+    "column_count": 12,
+    "columns": [
+      "id_factura",
+      "proveedor",
+      "descripcion",
+      "monto",
+      "tipo_comprobante",
+      "fecha",
+      "fecha_mes",
+      "rubro",
+      "subrubro",
+      "categoria",
+      "source_categoria",
+      "categoria_source"
+    ]
+  },
+  "schema": {
+    "required_columns": [
+      "id_factura",
+      "proveedor",
+      "descripcion",
+      "monto",
+      "tipo_comprobante",
+      "fecha",
+      "fecha_mes",
+      "rubro",
+      "subrubro"
+    ],
+    "missing_columns": [],
+    "optional_present": {
+      "categoria": true
+    }
+  },
+  "validations": {
+    "id_factura": {
+      "duplicate_count": 0,
+      "example_ids": []
+    },
+    "types": {
+      "invalid_monto_count": 0,
+      "invalid_fecha_count": 0,
+      "invalid_fecha_mes_count": 0
+    },
+    "fecha_consistency": {
+      "mismatch_count": 0
+    }
+  },
+  "nulls_per_column": {
+    "id_factura": 0,
+    "proveedor": 0,
+    "descripcion": 0,
+    "monto": 0,
+    "tipo_comprobante": 0,
+    "fecha": 0,
+    "fecha_mes": 0,
+    "rubro": 0,
+    "subrubro": 0,
+    "categoria": 0,
+    "source_categoria": 0,
+    "categoria_source": 0
+  },
+  "distributions": {
+    "rubro": {
+      "INSUMOS OPERATIVOS": 80,
+      "TECNOLOGIA": 80,
+      "SERVICIOS": 75,
+      "MANTENIMIENTO": 70,
+      "MERCADERIA": 70,
+      "ADMINISTRACION": 65,
+      "LOGISTICA": 60
+    },
+    "subrubro": {
+      "MATERIALES MENORES": 34,
+      "REPUESTOS": 27,
+      "AGUA": 27,
+      "INSUMOS PARA VENTA": 27,
+      "CONSUMIBLES IMPRESION": 25,
+      "ENVIOS": 24,
+      "LIBRERIA": 23,
+      "ALIMENTOS": 23,
+      "DOCUMENTACION": 23,
+      "PERIFERICOS": 22,
+      "EQUIPAMIENTO INFORMATICO": 22,
+      "ELEMENTOS DE TRABAJO": 21,
+      "COMPRAS MERCADERIA": 20,
+      "SOFTWARE": 20,
+      "TRANSPORTE": 19,
+      "GESTORIA": 19,
+      "TELEFONIA": 19,
+      "LIMPIEZA": 19,
+      "COMBUSTIBLE": 17,
+      "SERVICIO TECNICO": 16,
+      "INTERNET Y COMUNICACIONES": 15,
+      "HERRAMIENTAS": 14,
+      "ENERGIA": 14,
+      "REPARACIONES": 10
+    },
+    "categoria": {
+      "INSUMOS OPERATIVOS__MATERIALES MENORES": 34,
+      "MANTENIMIENTO__REPUESTOS": 27,
+      "SERVICIOS__AGUA": 27,
+      "MERCADERIA__INSUMOS PARA VENTA": 27,
+      "INSUMOS OPERATIVOS__CONSUMIBLES IMPRESION": 25,
+      "LOGISTICA__ENVIOS": 24,
+      "ADMINISTRACION__LIBRERIA": 23,
+      "MERCADERIA__ALIMENTOS": 23,
+      "ADMINISTRACION__DOCUMENTACION": 23,
+      "TECNOLOGIA__PERIFERICOS": 22,
+      "TECNOLOGIA__EQUIPAMIENTO INFORMATICO": 22,
+      "INSUMOS OPERATIVOS__ELEMENTOS DE TRABAJO": 21,
+      "MERCADERIA__COMPRAS MERCADERIA": 20,
+      "TECNOLOGIA__SOFTWARE": 20,
+      "LOGISTICA__TRANSPORTE": 19,
+      "ADMINISTRACION__GESTORIA": 19,
+      "SERVICIOS__TELEFONIA": 19,
+      "MANTENIMIENTO__LIMPIEZA": 19,
+      "LOGISTICA__COMBUSTIBLE": 17,
+      "TECNOLOGIA__SERVICIO TECNICO": 16,
+      "SERVICIOS__INTERNET Y COMUNICACIONES": 15,
+      "MANTENIMIENTO__HERRAMIENTAS": 14,
+      "SERVICIOS__ENERGIA": 14,
+      "MANTENIMIENTO__REPARACIONES": 10
+    }
+  },
+  "categoria_source": {
+    "derived": 0,
+    "verified": 500,
+    "mismatched": 0
+  },
+  "generated_at": "2026-06-18T15:08:53.059552+00:00"
+}
