@@ -1,0 +1,122 @@
+{
+  "output_type": "scipy sparse matrix",
+  "matrix_type": "csr_matrix",
+  "input_shape": [
+    500,
+    6
+  ],
+  "train_shape": [
+    400,
+    1052
+  ],
+  "test_shape": [
+    100,
+    1052
+  ],
+  "feature_count": 1052,
+  "nan_in_train": false,
+  "nan_in_test": false,
+  "class_distribution": {
+    "ADMINISTRACION__DOCUMENTACION": {
+      "train": 18,
+      "test": 5
+    },
+    "ADMINISTRACION__GESTORIA": {
+      "train": 15,
+      "test": 4
+    },
+    "ADMINISTRACION__LIBRERIA": {
+      "train": 18,
+      "test": 5
+    },
+    "INSUMOS OPERATIVOS__CONSUMIBLES IMPRESION": {
+      "train": 20,
+      "test": 5
+    },
+    "INSUMOS OPERATIVOS__ELEMENTOS DE TRABAJO": {
+      "train": 17,
+      "test": 4
+    },
+    "INSUMOS OPERATIVOS__MATERIALES MENORES": {
+      "train": 27,
+      "test": 7
+    },
+    "LOGISTICA__COMBUSTIBLE": {
+      "train": 14,
+      "test": 3
+    },
+    "LOGISTICA__ENVIOS": {
+      "train": 19,
+      "test": 5
+    },
+    "LOGISTICA__TRANSPORTE": {
+      "train": 15,
+      "test": 4
+    },
+    "MANTENIMIENTO__HERRAMIENTAS": {
+      "train": 11,
+      "test": 3
+    },
+    "MANTENIMIENTO__LIMPIEZA": {
+      "train": 15,
+      "test": 4
+    },
+    "MANTENIMIENTO__REPARACIONES": {
+      "train": 8,
+      "test": 2
+    },
+    "MANTENIMIENTO__REPUESTOS": {
+      "train": 22,
+      "test": 5
+    },
+    "MERCADERIA__ALIMENTOS": {
+      "train": 18,
+      "test": 5
+    },
+    "MERCADERIA__COMPRAS MERCADERIA": {
+      "train": 16,
+      "test": 4
+    },
+    "MERCADERIA__INSUMOS PARA VENTA": {
+      "train": 22,
+      "test": 5
+    },
+    "SERVICIOS__AGUA": {
+      "train": 22,
+      "test": 5
+    },
+    "SERVICIOS__ENERGIA": {
+      "train": 11,
+      "test": 3
+    },
+    "SERVICIOS__INTERNET Y COMUNICACIONES": {
+      "train": 12,
+      "test": 3
+    },
+    "SERVICIOS__TELEFONIA": {
+      "train": 15,
+      "test": 4
+    },
+    "TECNOLOGIA__EQUIPAMIENTO INFORMATICO": {
+      "train": 18,
+      "test": 4
+    },
+    "TECNOLOGIA__PERIFERICOS": {
+      "train": 18,
+      "test": 4
+    },
+    "TECNOLOGIA__SERVICIO TECNICO": {
+      "train": 13,
+      "test": 3
+    },
+    "TECNOLOGIA__SOFTWARE": {
+      "train": 16,
+      "test": 4
+    }
+  },
+  "artifact_paths": {
+    "preprocessor": "models\\preprocessor_supervisado.pkl",
+    "label_encoder": "models\\label_encoder_categoria.pkl"
+  },
+  "random_state": 42
+}
