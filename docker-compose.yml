@@ -1,0 +1,9 @@
+services:
+  pipeline:
+    build: .
+    image: facturas
+    command: python -m src.data.pipeline
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./results:/app/results

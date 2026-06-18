@@ -1,4 +1,4 @@
-"""Integration tests for src/preprocess_pipeline.py — RED phase.
+"""Integration tests for src/preprocessing/pipeline.py — RED phase.
 
 Tests reference production code that does NOT exist yet.
 Running now will fail with ImportError — that IS the expected RED state.
@@ -11,7 +11,7 @@ import pytest
 from unittest import mock
 
 # Import from module under test — does NOT exist yet (RED)
-from src.preprocess_pipeline import run_preprocessing  # noqa: E402
+from src.preprocessing.pipeline import run_preprocessing  # noqa: E402
 
 
 # ===========================================================================
@@ -93,8 +93,8 @@ class TestSplitShapesAndFitOnTrain:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -112,8 +112,8 @@ class TestSplitShapesAndFitOnTrain:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -135,8 +135,8 @@ class TestSplitShapesAndFitOnTrain:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -155,8 +155,8 @@ class TestSplitShapesAndFitOnTrain:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -184,9 +184,9 @@ class TestSerializationRoundTrip:
     def test_dump_load_transform_identity_dense(self, df_25_rows, tmp_path):
         """GIVEN fitted preprocessor saved to .pkl
         WHEN loaded and applied to same input
-        THEN output matches original transform (dense handling)."""
-        from src.preprocessor import build_preprocessor, extract_target
-
+            THEN output matches original transform (dense handling)."""
+        from src.preprocessing.preprocessor import build_preprocessor, extract_target
+        
         X, y_raw, _ = extract_target(df_25_rows)
 
         preprocessor = build_preprocessor(X)
@@ -218,7 +218,7 @@ class TestSerializationRoundTrip:
         """GIVEN fitted LabelEncoder saved to .pkl
         WHEN loaded and applied to same labels
         THEN output matches original encoding."""
-        from src.preprocessor import extract_target
+        from src.preprocessing.preprocessor import extract_target
         import joblib
 
         _, y_raw, le = extract_target(df_25_rows)
@@ -236,7 +236,7 @@ class TestSerializationRoundTrip:
         """GIVEN TF-IDF produces sparse output
         WHEN round-tripped through joblib
         THEN sparse output is preserved and matches via .toarray()."""
-        from src.preprocessor import build_preprocessor, extract_target
+        from src.preprocessing.preprocessor import build_preprocessor, extract_target
         import joblib
 
         X, _, _ = extract_target(df_with_fffd)
@@ -284,8 +284,8 @@ class TestDeterminism:
         out2.mkdir()
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load1),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive1),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load1),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive1),
         ):
             report1 = run_preprocessing(
                 input_path="fake.xlsx",
@@ -294,8 +294,8 @@ class TestDeterminism:
             )
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load2),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive2),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load2),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive2),
         ):
             report2 = run_preprocessing(
                 input_path="fake.xlsx",
@@ -329,10 +329,10 @@ class TestDeterminism:
         # The report must still contain valid shapes.
         from sklearn.model_selection import train_test_split
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
             mock.patch(
-                "src.preprocess_pipeline.train_test_split",
+                "src.preprocessing.pipeline.train_test_split",
                 wraps=train_test_split,
             ),
         ):
@@ -360,8 +360,8 @@ class TestReportContract:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -387,8 +387,8 @@ class TestReportContract:
 
         results_dir = tmp_path / "results"
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             run_preprocessing(
                 input_path="fake.xlsx",
@@ -411,8 +411,8 @@ class TestReportContract:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -430,8 +430,8 @@ class TestReportContract:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",
@@ -458,8 +458,8 @@ class TestReportContract:
         mock_load, mock_derive = _mock_pipeline_deps(df_25_rows)
 
         with (
-            mock.patch("src.preprocess_pipeline.load_dataset", mock_load),
-            mock.patch("src.preprocess_pipeline.derive_categoria", mock_derive),
+            mock.patch("src.preprocessing.pipeline.load_dataset", mock_load),
+            mock.patch("src.preprocessing.pipeline.derive_categoria", mock_derive),
         ):
             report = run_preprocessing(
                 input_path="fake.xlsx",

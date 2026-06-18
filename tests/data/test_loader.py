@@ -1,4 +1,4 @@
-"""Tests for src/data_loader.py — RED phase: tests written BEFORE implementation."""
+"""Tests for src/data/loader.py — RED phase: tests written BEFORE implementation."""
 
 import tempfile
 from pathlib import Path
@@ -8,7 +8,7 @@ import openpyxl
 import pytest
 
 # Import the module under test — does NOT exist yet (RED)
-from src.data_loader import load_dataset
+from src.data.loader import load_dataset
 
 
 # ---------------------------------------------------------------------------

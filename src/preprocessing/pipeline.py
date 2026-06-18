@@ -1,7 +1,7 @@
 """Preprocessing pipeline orchestrator: load → derive target → leak-drop →
 split → fit-on-train → transform → serialize.
 
-Entry point: python -m src.preprocess_pipeline
+Entry point: python -m src.preprocessing.pipeline
 """
 
 import json
@@ -11,9 +11,9 @@ import joblib
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from src.data_loader import load_dataset
-from src.data_quality import derive_categoria
-from src.preprocessor import (
+from src.data.loader import load_dataset
+from src.data.quality import derive_categoria
+from src.preprocessing.preprocessor import (
     build_preprocessor,
     extract_target,
     validate_class_counts,

@@ -1,3 +1,18 @@
+# Project tooling
 .atl/
 openspec/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Coverage reports
 .coverage
+
+# Generated artifacts (regenerated via pipelines)
+models/

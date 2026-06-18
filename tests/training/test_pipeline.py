@@ -1,4 +1,4 @@
-"""Integration tests for src/training_pipeline.py — RED phase.
+"""Integration tests for src/training/pipeline.py — RED phase.
 
 Tests validate: artifact loading, split reconstruction, smoke training,
 orchestration order, and report contract. Uses tmp_path for file I/O
@@ -18,7 +18,7 @@ pytest.importorskip("tensorflow")
 import tensorflow as tf
 
 # Import from module under test — does NOT exist yet (RED)
-from src.training_pipeline import (  # noqa: E402
+from src.training.pipeline import (  # noqa: E402
     load_artifacts,
     reconstruct_split,
     create_val_split,
@@ -160,7 +160,7 @@ class TestSmokeTraining:
         THEN loss finite, history has expected keys."""
         from sklearn.model_selection import train_test_split
         from sklearn.preprocessing import LabelEncoder
-        from src.model import build_mlp, compile_mlp, to_dense
+        from src.training.model import build_mlp, compile_mlp, to_dense
 
         # Prepare minimal data
         X = synthetic_data.select_dtypes(include=[np.number]).values.astype(np.float32)
@@ -196,15 +196,16 @@ class TestSmokeTraining:
         assert np.isfinite(loss), "Test loss not finite"
 
     def test_end_to_end_mocked(self, tmp_path, synthetic_data):
-        """GIVEN mock for model.fit() and model.save()
+        """GIVEN mock for model.fit()
         WHEN run_training() called
-        THEN orchestration order correct, report returned with 9 keys."""
+        THEN orchestration order correct, report returned with 9 keys.
+        ModelCheckpoint callback handles saving (not called in mock)."""
         from sklearn.preprocessing import LabelEncoder
         import joblib
 
         # Build a real preprocessor from the synthetic data so columns match
-        from src.preprocessor import build_preprocessor, extract_target
-        from src.data_quality import derive_categoria
+        from src.preprocessing.preprocessor import build_preprocessor, extract_target
+        from src.data.quality import derive_categoria
 
         df_derived = derive_categoria(synthetic_data.copy())
         X, _, _ = extract_target(df_derived)
@@ -229,8 +230,8 @@ class TestSmokeTraining:
         synthetic_data.to_csv(data_path, index=False)
 
         # Mock model.fit() and model.save() to avoid actual training
-        with mock.patch("src.training_pipeline.build_mlp") as mock_build, \
-             mock.patch("src.training_pipeline.compile_mlp") as mock_compile:
+        with mock.patch("src.training.pipeline.build_mlp") as mock_build, \
+             mock.patch("src.training.pipeline.compile_mlp") as mock_compile:
 
             mock_model = mock.MagicMock()
             mock_model.input_shape = (None, 1)
@@ -279,8 +280,8 @@ class TestSmokeTraining:
         # Verify evaluate() was called on test set only
         mock_model.evaluate.assert_called_once()
 
-        # Verify model was saved
-        mock_model.save.assert_called_once()
+        # Model saved by ModelCheckpoint callback (save_best_only=True)
+        # No explicit model.save() — checkpoint handles serialization
 
 
 # ===========================================================================

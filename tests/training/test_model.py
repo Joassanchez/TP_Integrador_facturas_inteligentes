@@ -1,4 +1,4 @@
-"""Unit tests for src/model.py — RED phase: tests written BEFORE implementation.
+"""Unit tests for src/training/model.py — RED phase: tests written BEFORE implementation.
 
 Tests validate: build_mlp shapes, compile_mlp config, to_dense conversion,
 and deterministic construction. All TF-dependent tests are skipped when
@@ -14,7 +14,7 @@ import tensorflow as tf
 from scipy.sparse import csr_matrix
 
 # Import from module under test — does NOT exist yet (RED)
-from src.model import build_mlp, compile_mlp, to_dense  # noqa: E402
+from src.training.model import build_mlp, compile_mlp, to_dense  # noqa: E402
 
 
 # ===========================================================================

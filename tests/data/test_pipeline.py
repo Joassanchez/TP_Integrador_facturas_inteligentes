@@ -1,4 +1,4 @@
-"""Tests for src/data_pipeline.py — RED phase: tests written BEFORE implementation."""
+"""Tests for src/data/pipeline.py — RED phase: tests written BEFORE implementation."""
 
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from src.data_pipeline import run_report
+from src.data.pipeline import run_report
 
 
 # ---------------------------------------------------------------------------
@@ -237,18 +237,18 @@ def test_run_report_return_matches_json(valid_xlsx, tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_cli_entry_point_writes_json(valid_xlsx, tmp_path):
-    """GIVEN a valid XLSX WHEN run via `python -m src.data_pipeline <path>`
+    """GIVEN a valid XLSX WHEN run via `python -m src.data.pipeline <path>`
     THEN a JSON report is written to results/ and exit code is 0."""
     output_dir = tmp_path / "results"
 
     # Run from project root so `src` package is importable.
     # Pass tmp_path as cwd so results/ is created there, not in the real project.
     result = subprocess.run(
-        [sys.executable, "-m", "src.data_pipeline", str(valid_xlsx)],
+        [sys.executable, "-m", "src.data.pipeline", str(valid_xlsx)],
         capture_output=True,
         text=True,
         cwd=tmp_path,
-        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parent.parent)},
+        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parent.parent.parent)},
     )
 
     assert result.returncode == 0, f"CLI failed:\n{result.stderr}"

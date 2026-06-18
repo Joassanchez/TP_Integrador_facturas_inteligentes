@@ -1,4 +1,4 @@
-"""Tests for src/preprocessor.py — RED phase: tests written BEFORE implementation.
+"""Tests for src/preprocessing/preprocessor.py — RED phase: tests written BEFORE implementation.
 
 Strict TDD: these tests reference production code that does NOT exist yet.
 Running them now will fail with ImportError — that IS the expected RED state.
@@ -9,7 +9,7 @@ import pandas as pd
 import pytest
 
 # Import from module under test — does NOT exist yet (RED)
-from src.preprocessor import (  # noqa: E402
+from src.preprocessing.preprocessor import (  # noqa: E402
     DROP_COLUMNS,
     sanitize_descripcion,
     DateFeatureExtractor,

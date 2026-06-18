@@ -74,7 +74,7 @@ def quality_report(df: pd.DataFrame, findings: dict, metadata: dict) -> dict:
     }
 
     # --- Schema ---
-    from src.data_validator import REQUIRED_COLUMNS
+    from src.data.validator import REQUIRED_COLUMNS
 
     optional_present = {
         "categoria": "source_categoria" in df.columns,

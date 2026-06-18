@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "source": {
-    "input_path": "C:\\Users\\Joa\\Documents\\Facultad\\TP_Integrador_facturas_inteligentes\\data\\raw\\dataset_facturas_sistemas_inteligentes.xlsx",
+    "input_path": "/app/data/raw/dataset_facturas_sistemas_inteligentes.xlsx",
     "format": "xlsx",
     "sheet_name": "dataset_facturas"
   },
@@ -136,5 +136,5 @@
     "verified": 500,
     "mismatched": 0
   },
-  "generated_at": "2026-06-18T15:08:53.059552+00:00"
+  "generated_at": "2026-06-18T19:27:11.896164+00:00"
 }

@@ -1,10 +1,11 @@
-﻿"""Training pipeline orchestrator: load artifacts → reconstruct split →
+"""Training pipeline orchestrator: load artifacts → reconstruct split →
 transform → train → evaluate → save model + report.
 
-Entry point: python -m src.training_pipeline
+Entry point: python -m src.training.pipeline
 """
 
 import json
+import shutil
 from collections import Counter
 from pathlib import Path
 
@@ -13,10 +14,10 @@ import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-from src.data_loader import load_dataset
-from src.data_quality import derive_categoria
-from src.model import build_mlp, compile_mlp, to_dense
-from src.preprocessor import extract_target
+from src.data.loader import load_dataset
+from src.data.quality import derive_categoria
+from src.training.model import build_mlp, compile_mlp, to_dense
+from src.preprocessing.preprocessor import extract_target
 
 
 # ===========================================================================
@@ -175,7 +176,14 @@ def run_training(
     compile_mlp(model)
 
     # ---- 9. Train ----
-    keras_path = str(model_p / "modelo_supervisado.keras")
+    # Save checkpoint to temp dir (inside container, not bind-mounted)
+    # to avoid Windows Docker Desktop file-locking on .keras writes.
+    # After training, copy best checkpoint to the mounted model_dir.
+    final_keras_path = model_p / "modelo_supervisado.keras"
+    checkpoint_dir = Path("/tmp/keras_checkpoints")
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    checkpoint_path = str(checkpoint_dir / "modelo_supervisado.keras")
+
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
             monitor="val_loss",
@@ -183,7 +191,7 @@ def run_training(
             restore_best_weights=True,
         ),
         tf.keras.callbacks.ModelCheckpoint(
-            filepath=keras_path,
+            filepath=checkpoint_path,
             monitor="val_loss",
             save_best_only=True,
         ),
@@ -198,14 +206,19 @@ def run_training(
         verbose=1,
     )
 
+    # Copy best checkpoint to final location, then clean up
+    if checkpoint_dir.exists():
+        best_ckpt = sorted(checkpoint_dir.glob("*.keras"))
+        if best_ckpt:
+            shutil.copy2(str(best_ckpt[0]), str(final_keras_path))
+        shutil.rmtree(checkpoint_dir, ignore_errors=True)
+
     # ---- 10. Evaluate on test ----
     test_loss, test_accuracy = model.evaluate(
         X_test_dense, y_test, verbose=0,
     )
 
-    # ---- 11. Save model ----
-    model.save(keras_path)
-
+    # ---- 11. Model already saved by ModelCheckpoint (save_best_only=True) ----
     # ---- 12. Post-hoc metrics ----
     posthoc = compute_posthoc_metrics(
         model, X_test_dense, y_test, label_encoder,
@@ -268,7 +281,7 @@ def run_training(
             for k, vals in history.history.items()
         },
         "artifact_paths": {
-            "model": keras_path,
+            "model": str(final_keras_path),
             "report": str(results_p / "training_report.json"),
             "preprocessor": str(preprocessor_path),
             "label_encoder": str(encoder_path),

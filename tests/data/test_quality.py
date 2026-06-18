@@ -1,9 +1,9 @@
-"""Tests for src/data_quality.py — RED phase: tests written BEFORE implementation."""
+"""Tests for src/data/quality.py — RED phase: tests written BEFORE implementation."""
 
 import pandas as pd
 import pytest
 
-from src.data_quality import derive_categoria, quality_report
+from src.data.quality import derive_categoria, quality_report
 
 
 # ---------------------------------------------------------------------------

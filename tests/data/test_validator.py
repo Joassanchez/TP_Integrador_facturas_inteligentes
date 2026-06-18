@@ -1,9 +1,9 @@
-"""Tests for src/data_validator.py — RED phase: tests written BEFORE implementation."""
+"""Tests for src/data/validator.py — RED phase: tests written BEFORE implementation."""
 
 import pandas as pd
 import pytest
 
-from src.data_validator import (
+from src.data.validator import (
     REQUIRED_COLUMNS,
     validate_columns,
     validate_uniqueness,

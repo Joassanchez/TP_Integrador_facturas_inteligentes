@@ -1,19 +1,19 @@
 """Pipeline orchestrator: load → validate → derive → report → output.
 
-Entry point: python -m src.data_pipeline
+Entry point: python -m src.data.pipeline
 """
 
 import json
 from pathlib import Path
 
-from src.data_loader import load_dataset
-from src.data_validator import (
+from src.data.loader import load_dataset
+from src.data.validator import (
     validate_columns,
     validate_uniqueness,
     validate_types,
     validate_fecha_consistency,
 )
-from src.data_quality import derive_categoria, quality_report
+from src.data.quality import derive_categoria, quality_report
 
 
 def run_report(input_path, output_dir="results"):
@@ -97,7 +97,7 @@ def _print_summary(report, json_path):
     print("=" * 60)
 
 
-# Entry point for python -m src.data_pipeline
+# Entry point for python -m src.data.pipeline
 if __name__ == "__main__":
     import sys
 

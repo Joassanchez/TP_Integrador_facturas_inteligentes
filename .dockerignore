@@ -1,0 +1,21 @@
+# Git metadata
+.git/
+
+# Project tooling and docs (not needed at runtime)
+.atl/
+openspec/
+README.md
+
+# Python caches and virtual environments
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+venv/
+
+# Coverage reports
+.coverage
+
+# Generated artifacts (mounted at runtime, not needed in image)
+models/
+results/
